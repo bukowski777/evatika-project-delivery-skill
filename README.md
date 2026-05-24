@@ -1,12 +1,16 @@
 # Evatika Project Delivery Skill
 
-Skill Codex pour cadrer, developper, diagnostiquer, deployer et documenter des projets clients Evatika avec un niveau de rigueur adapte a la production.
+Codex skill for scoping, building, diagnosing, deploying, and documenting Evatika client projects with production-grade rigor.
 
-Le skill est volontairement generique, mais technique. Il formalise des pratiques reutilisables issues de projets clients reels : integrations SQL/API/Power Automate/Supabase, deploiement Docker/GitHub Actions/VPS, incidents de production, observabilite, UX terrain et documentation dirigeant/prestataire.
+The skill is intentionally generic but technical. It formalizes reusable practices learned from real client projects: SQL/API/Power Automate/Supabase integrations, Docker/GitHub Actions/VPS deployment, production incidents, observability, field UX, and executive/vendor documentation.
 
-Ce depot ne contient pas de donnees client, de secrets, de configuration de production ni de procedure dependante d'une infrastructure privee. Les exemples restent au niveau des pratiques et des checklists.
+This repository does not contain client data, secrets, production configuration, or procedures tied to private infrastructure. Examples stay at the level of practices and checklists.
 
-## Contenu
+## Why This Exists
+
+Most AI-assisted coding examples focus on implementing a feature. Client delivery also needs production safety: scoped changes, integration contracts, rollback paths, observability, operator handover, and clear documentation. This skill captures those delivery habits in a reusable Codex workflow.
+
+## Contents
 
 ```text
 evatika-project-delivery/
@@ -21,59 +25,59 @@ evatika-project-delivery/
     documentation-and-handover.md
 ```
 
-## Installation locale
+## Local Installation
 
-Depuis la racine du depot :
+From the repository root:
 
 ```bash
 ./install.sh
 ```
 
-Le script copie le dossier `evatika-project-delivery` dans :
+The script copies the `evatika-project-delivery` directory into:
 
 ```text
 ~/.codex/skills/evatika-project-delivery
 ```
 
-Si le dossier existe deja, il est remplace par la version du depot.
+If the target directory already exists, it is replaced with the repository version.
 
-## Utilisation
+## Usage
 
-Dans Codex, demander explicitement :
+In Codex, ask explicitly:
 
 ```text
-Utilise $evatika-project-delivery pour cette tache.
+Use $evatika-project-delivery for this task.
 ```
 
-Le skill peut aussi etre declenche implicitement sur les demandes de type :
+The skill can also be triggered implicitly for tasks such as:
 
-- developpement projet client ;
-- audit ou refactoring prudent ;
-- integration SQL/API/Power Automate/Supabase ;
-- deploiement Docker/VPS/GitHub Actions ;
-- incident de production, CPU, latence, sync ;
-- UX mobile/tablette ;
-- documentation dirigeant, prestataire ou runbook.
+- client project development;
+- cautious audit or refactoring;
+- SQL/API/Power Automate/Supabase integration;
+- Docker/VPS/GitHub Actions deployment;
+- production incident, CPU, latency, or sync diagnosis;
+- mobile/tablet UX review;
+- executive, vendor, or runbook documentation.
 
-## Principes
+## Principles
 
-- Lire le projet avant de modifier.
-- Separer prototype, cible, production, legacy et contournement temporaire.
-- Traiter les integrations comme des contrats.
-- Ne jamais exposer de secrets.
-- Verifier avant de declarer termine.
-- Documenter les decisions et les procedures.
-- Deployer avec rollback connu.
+- Read the project before changing it.
+- Separate prototype, target product, production, legacy, and temporary workaround.
+- Treat integrations as contracts.
+- Never expose secrets.
+- Verify before declaring the work complete.
+- Document decisions and procedures.
+- Deploy with a known rollback path.
 
 ## Maintenance
 
-Le skill doit rester court et actionnable :
+Keep the skill short and actionable:
 
-- `SKILL.md` contient les invariants et le routeur vers les references ;
-- les details vivent dans `references/` ;
-- ajouter des scripts seulement si une procedure est repetee sur plusieurs projets ;
-- eviter de transformer le skill en historique de projet.
+- `SKILL.md` contains the invariants and the router to references;
+- details live in `references/`;
+- add scripts only when a procedure is repeated across several projects;
+- avoid turning the skill into a project history.
 
-## Licence
+## License
 
-Ce projet est publie sous licence MIT. Voir `LICENSE`.
+This project is published under the MIT license. See `LICENSE`.
