@@ -1,0 +1,7 @@
+interface:
+  display_name: "Evatika Project Delivery"
+  short_description: "Deliver client projects safely"
+  brand_color: "#F04A23"
+  default_prompt: "Use $evatika-project-delivery to plan, verify, and deliver this client project change safely."
+policy:
+  allow_implicit_invocation: true
