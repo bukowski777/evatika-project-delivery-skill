@@ -173,7 +173,8 @@ backup_existing_dir() {
   local backup_name="$3"
 
   if [[ -d "${existing_dir}" ]]; then
-    local backup_dir="${backup_root}/${backup_name}.$(date +%Y%m%d%H%M%S)"
+    local backup_dir
+    backup_dir="${backup_root}/${backup_name}.$(date +%Y%m%d%H%M%S)"
     mv "${existing_dir}" "${backup_dir}"
     printf 'Backed up %s to %s\n' "${existing_dir}" "${backup_dir}"
   fi

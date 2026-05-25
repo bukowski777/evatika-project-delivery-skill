@@ -6,6 +6,8 @@ SKILL_DIR="${ROOT_DIR}/client-delivery-guardrails"
 SKILL_FILE="${SKILL_DIR}/SKILL.md"
 AGENT_FILE="${SKILL_DIR}/agents/openai.yaml"
 failures=0
+# shellcheck disable=SC2016
+router_ref_pattern='`(references|templates)/[^`]+\.md`'
 
 fail() {
   echo "ERROR: $*" >&2
@@ -73,7 +75,7 @@ if [[ -f "${SKILL_FILE}" ]]; then
 
   while IFS= read -r ref; do
     [[ -f "${SKILL_DIR}/${ref}" ]] || fail "router reference missing: ${ref}"
-  done < <(grep -Eo '`(references|templates)/[^`]+\.md`' "${SKILL_FILE}" | tr -d '`' | sort -u)
+  done < <(grep -Eo "${router_ref_pattern}" "${SKILL_FILE}" | tr -d '`' | sort -u)
 fi
 
 if [[ -f "${AGENT_FILE}" ]]; then

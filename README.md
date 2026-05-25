@@ -140,7 +140,7 @@ The validation script checks required files, `SKILL.md` frontmatter, router link
 Build a local release archive:
 
 ```bash
-scripts/package-skill.sh --version v0.3.1
+scripts/package-skill.sh --version v0.3.2
 ```
 
 The archive is written to `dist/` and contains the installable `client-delivery-guardrails/` skill directory. A matching `.sha256` checksum is created next to the zip.
@@ -148,8 +148,8 @@ The archive is written to `dist/` and contains the installable `client-delivery-
 To publish a hosted release, push a version tag:
 
 ```bash
-git tag v0.3.1
-git push origin v0.3.1
+git tag v0.3.2
+git push origin v0.3.2
 ```
 
 The `Release package` workflow validates the skill, creates the zip, and attaches it to the hosted release for that tag.

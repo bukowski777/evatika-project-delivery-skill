@@ -4,6 +4,10 @@ All notable changes to this skill repository should be documented here.
 
 ## Unreleased
 
+## v0.3.2 - 2026-05-25
+
+- Fixed ShellCheck issues in the installer and validation script so CI validation can enforce shell linting.
+
 ## v0.3.1 - 2026-05-25
 
 - Aligned the default Codex install target with the official Codex user skills path, `~/.agents/skills`.
