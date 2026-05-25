@@ -12,3 +12,4 @@ All notable changes to this skill repository should be documented here.
 - Kept validation compatible with macOS Bash 3.2.
 - Excluded local metadata files from validation and installation output.
 - Revised README for public GitHub presentation and clearer onboarding.
+- Added release zip packaging script and GitHub release workflow for `v*` tags.

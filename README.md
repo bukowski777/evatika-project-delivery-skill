@@ -88,7 +88,9 @@ Use $evatika-project-delivery to review the tablet UX and produce a client-ready
 | `evatika-project-delivery/references/` | Detailed guidance for discovery, integrations, release, diagnosis, UX, security, testing, and handover. |
 | `evatika-project-delivery/templates/` | Reusable report, incident, integration request, release plan, and runbook structures. |
 | `scripts/validate-skill.sh` | Local package validation and obvious secret-pattern checks. |
+| `scripts/package-skill.sh` | Builds a release zip containing the installable skill directory. |
 | `.github/workflows/validate.yml` | GitHub Actions validation on push and pull request. |
+| `.github/workflows/release.yml` | GitHub Actions release packaging on `v*` tags. |
 | `install.sh` | Local installer with dry-run, backup, and configurable target directory. |
 
 ## Validate
@@ -101,6 +103,25 @@ bash scripts/validate-skill.sh
 ```
 
 The validation script checks required files, `SKILL.md` frontmatter, router links, shell syntax, package size, metadata files, and obvious secret-like patterns.
+
+## Package
+
+Build a local release archive:
+
+```bash
+scripts/package-skill.sh --version v0.1.0
+```
+
+The archive is written to `dist/` and contains the installable `evatika-project-delivery/` skill directory.
+
+To publish a GitHub release, push a version tag:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The `Release package` workflow validates the skill, creates the zip, and attaches it to the GitHub release for that tag.
 
 ## Public Safety Rules
 

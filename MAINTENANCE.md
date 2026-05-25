@@ -19,7 +19,7 @@
 - `evatika-project-delivery/SKILL.md`: mission, invocation scope, operating defaults, workflow, gates, and router.
 - `evatika-project-delivery/references/`: detailed operational procedures by domain.
 - `evatika-project-delivery/templates/`: reusable output structures.
-- `scripts/`: repository maintenance checks only.
+- `scripts/`: repository maintenance, validation, and packaging helpers only.
 - `install.sh`: local installation helper only.
 
 ## Pre-Commit Verification
@@ -27,6 +27,7 @@
 ```bash
 bash scripts/validate-skill.sh
 ./install.sh --dry-run
+scripts/package-skill.sh --version test-package
 find evatika-project-delivery -maxdepth 3 -type f | sort
 sed -n '1,180p' evatika-project-delivery/SKILL.md
 ```
@@ -37,5 +38,6 @@ sed -n '1,180p' evatika-project-delivery/SKILL.md
 - New references are linked from the router when relevant.
 - Templates contain placeholders, not real client data.
 - Install behavior is reversible or dry-run testable.
+- Release packaging produces an installable zip without local metadata files.
 - CI can validate the package without external services.
 - The change improves behavior in future Codex runs, not only documentation aesthetics.

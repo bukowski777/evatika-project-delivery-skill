@@ -24,6 +24,8 @@ required_files=(
   "CONTRIBUTING.md"
   "CHANGELOG.md"
   "install.sh"
+  "scripts/package-skill.sh"
+  ".github/workflows/release.yml"
   "evatika-project-delivery/SKILL.md"
   "evatika-project-delivery/agents/openai.yaml"
   "evatika-project-delivery/references/project-discovery.md"
@@ -68,6 +70,9 @@ fi
 
 bash -n "${ROOT_DIR}/install.sh" || fail "install.sh has shell syntax errors"
 bash -n "${ROOT_DIR}/scripts/validate-skill.sh" || fail "scripts/validate-skill.sh has shell syntax errors"
+if [[ -f "${ROOT_DIR}/scripts/package-skill.sh" ]]; then
+  bash -n "${ROOT_DIR}/scripts/package-skill.sh" || fail "scripts/package-skill.sh has shell syntax errors"
+fi
 
 secret_pattern='(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----|ghp_[A-Za-z0-9_]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,})'
 secret_scan_file="$(mktemp "${TMPDIR:-/tmp}/evatika-secret-scan.XXXXXX")"
