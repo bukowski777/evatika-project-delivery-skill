@@ -35,7 +35,7 @@ This skill captures those habits in a reusable agent workflow for freelancers, a
 
 ## Install
 
-From the repository root, install for Codex:
+From the repository root, install for Codex user skills:
 
 ```bash
 ./install.sh
@@ -47,7 +47,7 @@ Install for Claude Code:
 ./install.sh --target claude-code
 ```
 
-Install across Codex, Claude Code, and the shared agent skills directory:
+Install across Codex and Claude Code:
 
 ```bash
 ./install.sh --target all
@@ -56,20 +56,26 @@ Install across Codex, Claude Code, and the shared agent skills directory:
 Target paths:
 
 ```text
-~/.codex/skills/client-delivery-guardrails
-~/.claude/skills/client-delivery-guardrails
-~/.agents/skills/client-delivery-guardrails
+~/.agents/skills/client-delivery-guardrails      # Codex user skills
+~/.claude/skills/client-delivery-guardrails      # Claude Code personal skills
+~/.codex/skills/client-delivery-guardrails       # legacy/local fallback only
 ```
 
 If a previous local install exists, it is backed up before replacement. The installer also backs up the earlier `client-delivery` folder when it exists in the same target root, so old and new skill names do not stay active side by side.
 
 Claude Code installs omit the Codex-specific `agents/openai.yaml` metadata file. The source package still keeps it for Codex compatibility.
 
+For current Codex versions, prefer `~/.agents/skills`. Use the legacy fallback only when a local Codex setup still scans `~/.codex/skills`:
+
+```bash
+./install.sh --target codex-legacy
+```
+
 Useful options:
 
 ```bash
 ./install.sh --dry-run
-SKILL_TARGET_DIR="$HOME/.codex/skills/client-delivery-guardrails" ./install.sh
+SKILL_TARGET_DIR="$HOME/.agents/skills/client-delivery-guardrails" ./install.sh
 ```
 
 ## Use In Codex And Claude Code
@@ -124,25 +130,26 @@ Run before committing or distributing changes:
 ```bash
 bash scripts/validate-skill.sh
 ./install.sh --dry-run
+bash scripts/test-install.sh
 ```
 
-The validation script checks required files, `SKILL.md` frontmatter, router links, shell syntax, package size, metadata files, and obvious secret-like patterns.
+The validation script checks required files, `SKILL.md` frontmatter, router links, shell syntax, optional shell lint, package size, metadata files, and obvious secret-like patterns across tracked text files.
 
 ## Package
 
 Build a local release archive:
 
 ```bash
-scripts/package-skill.sh --version v0.3.0
+scripts/package-skill.sh --version v0.3.1
 ```
 
-The archive is written to `dist/` and contains the installable `client-delivery-guardrails/` skill directory.
+The archive is written to `dist/` and contains the installable `client-delivery-guardrails/` skill directory. A matching `.sha256` checksum is created next to the zip.
 
 To publish a hosted release, push a version tag:
 
 ```bash
-git tag v0.3.0
-git push origin v0.3.0
+git tag v0.3.1
+git push origin v0.3.1
 ```
 
 The `Release package` workflow validates the skill, creates the zip, and attaches it to the hosted release for that tag.

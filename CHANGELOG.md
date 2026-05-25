@@ -2,7 +2,19 @@
 
 All notable changes to this skill repository should be documented here.
 
-## 2026-05-25
+## Unreleased
+
+## v0.3.1 - 2026-05-25
+
+- Aligned the default Codex install target with the official Codex user skills path, `~/.agents/skills`.
+- Added `codex-legacy` as an explicit target for older local setups using `~/.codex/skills`.
+- Added an install smoke test covering Codex, Claude Code, legacy backup, and metadata stripping.
+- Expanded validation to required repository files, full tracked-file secret scanning, skill name/description quality gates, and optional ShellCheck.
+- Hardened release packaging with option validation, zip inspection, metadata checks, and `.sha256` checksum generation.
+- Updated CI to run ShellCheck, repository validation, install smoke tests, and package smoke tests.
+- Added `.gitattributes` for consistent text and binary handling.
+
+## v0.3.0 - 2026-05-25
 
 - Renamed the public skill identity to `client-delivery-guardrails` to avoid collisions with existing public skills.
 - Kept the name function-oriented after removing the earlier company-oriented identity.

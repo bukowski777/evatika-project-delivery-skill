@@ -16,15 +16,16 @@ Usage:
   ./install.sh [--target TARGET] [--dry-run] [--help]
 
 Targets:
-  codex        Install to ~/.codex/skills/client-delivery-guardrails (default)
+  codex        Install to ~/.agents/skills/client-delivery-guardrails (default)
   claude-code  Install to ~/.claude/skills/client-delivery-guardrails
-  agents       Install to ~/.agents/skills/client-delivery-guardrails
-  all          Install to codex, claude-code, and agents
+  agents       Alias for codex
+  codex-legacy Install to ~/.codex/skills/client-delivery-guardrails
+  all          Install to codex and claude-code
 
 Environment:
-  CODEX_HOME        Override Codex home. Default: ~/.codex
+  CODEX_HOME        Override legacy Codex home. Default: ~/.codex
   CLAUDE_HOME       Override Claude Code home. Default: ~/.claude
-  AGENTS_HOME       Override shared agents home. Default: ~/.agents
+  AGENTS_HOME       Override Codex user skills home. Default: ~/.agents
   LEGACY_SKILL_NAME Optional previous local skill directory to back up.
   SKILL_TARGET_DIR  Override install target directory for a single custom install.
   SKILL_BACKUP_DIR  Override backup directory. Default: <target skills root>/.backups
@@ -37,9 +38,11 @@ add_target() {
     all)
       add_target codex
       add_target claude-code
-      add_target agents
       ;;
-    codex|claude-code|agents)
+    agents)
+      TARGETS+=(codex)
+      ;;
+    codex|claude-code|codex-legacy)
       TARGETS+=("${target}")
       ;;
     *)
@@ -99,13 +102,13 @@ fi
 target_root() {
   case "$1" in
     codex)
-      printf '%s/skills' "${CODEX_HOME:-${HOME}/.codex}"
+      printf '%s/skills' "${AGENTS_HOME:-${HOME}/.agents}"
       ;;
     claude-code)
       printf '%s/skills' "${CLAUDE_HOME:-${HOME}/.claude}"
       ;;
-    agents)
-      printf '%s/skills' "${AGENTS_HOME:-${HOME}/.agents}"
+    codex-legacy)
+      printf '%s/skills' "${CODEX_HOME:-${HOME}/.codex}"
       ;;
     custom)
       dirname "${SKILL_TARGET_DIR}"
@@ -128,7 +131,7 @@ target_label() {
   case "$1" in
     codex) printf 'Codex' ;;
     claude-code) printf 'Claude Code' ;;
-    agents) printf 'Shared agents' ;;
+    codex-legacy) printf 'Codex legacy' ;;
     custom) printf 'Custom' ;;
   esac
 }
@@ -178,7 +181,7 @@ backup_existing_dir() {
 
 install_target() {
   local target="$1"
-  local root target_path parent backup_root legacy_path staging_dir label
+  local root target_path parent backup_root legacy_path staging_dir label legacy_codex_root legacy_codex_backup_root legacy_codex_path legacy_codex_old_name_path
 
   root="$(target_root "${target}")"
   target_path="$(target_dir "${target}")"
@@ -187,6 +190,13 @@ install_target() {
   legacy_path=""
   if [[ -n "${LEGACY_SKILL_NAME}" ]]; then
     legacy_path="${parent}/${LEGACY_SKILL_NAME}"
+  fi
+  legacy_codex_root="${CODEX_HOME:-${HOME}/.codex}/skills"
+  legacy_codex_backup_root="${legacy_codex_root}/.backups"
+  legacy_codex_path="${legacy_codex_root}/${SKILL_NAME}"
+  legacy_codex_old_name_path=""
+  if [[ -n "${LEGACY_SKILL_NAME}" ]]; then
+    legacy_codex_old_name_path="${legacy_codex_root}/${LEGACY_SKILL_NAME}"
   fi
   label="$(target_label "${target}")"
 
@@ -200,6 +210,12 @@ install_target() {
     fi
     if [[ -n "${legacy_path}" && -d "${legacy_path}" && "${legacy_path}" != "${target_path}" ]]; then
       printf 'Dry run: legacy install would be backed up from %s\n' "${legacy_path}"
+    fi
+    if [[ "${target}" == "codex" && -d "${legacy_codex_path}" && "${legacy_codex_path}" != "${target_path}" ]]; then
+      printf 'Dry run: legacy Codex install would be backed up from %s\n' "${legacy_codex_path}"
+    fi
+    if [[ "${target}" == "codex" && -n "${legacy_codex_old_name_path}" && -d "${legacy_codex_old_name_path}" && "${legacy_codex_old_name_path}" != "${target_path}" ]]; then
+      printf 'Dry run: legacy Codex install would be backed up from %s\n' "${legacy_codex_old_name_path}"
     fi
     echo 'Dry run: no files changed.'
     return
@@ -216,6 +232,16 @@ install_target() {
   backup_existing_dir "${target_path}" "${backup_root}" "${SKILL_NAME}"
   if [[ -n "${legacy_path}" && "${legacy_path}" != "${target_path}" ]]; then
     backup_existing_dir "${legacy_path}" "${backup_root}" "${LEGACY_SKILL_NAME}"
+  fi
+  if [[ "${target}" == "codex" ]]; then
+    if [[ -d "${legacy_codex_path}" && "${legacy_codex_path}" != "${target_path}" ]]; then
+      mkdir -p "${legacy_codex_backup_root}"
+      backup_existing_dir "${legacy_codex_path}" "${legacy_codex_backup_root}" "${SKILL_NAME}"
+    fi
+    if [[ -n "${legacy_codex_old_name_path}" && -d "${legacy_codex_old_name_path}" && "${legacy_codex_old_name_path}" != "${target_path}" ]]; then
+      mkdir -p "${legacy_codex_backup_root}"
+      backup_existing_dir "${legacy_codex_old_name_path}" "${legacy_codex_backup_root}" "${LEGACY_SKILL_NAME}"
+    fi
   fi
 
   mv "${staging_dir}" "${target_path}"

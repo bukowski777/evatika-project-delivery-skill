@@ -27,6 +27,7 @@
 ```bash
 bash scripts/validate-skill.sh
 ./install.sh --dry-run
+bash scripts/test-install.sh
 scripts/package-skill.sh --version test-package
 find client-delivery-guardrails -maxdepth 3 -type f | sort
 sed -n '1,180p' client-delivery-guardrails/SKILL.md
@@ -38,6 +39,6 @@ sed -n '1,180p' client-delivery-guardrails/SKILL.md
 - New references are linked from the router when relevant.
 - Templates contain placeholders, not real client data.
 - Install behavior is reversible or dry-run testable.
-- Release packaging produces an installable zip without local metadata files.
+- Release packaging produces an installable zip, checksum, and no local metadata files.
 - CI can validate the package without external services.
 - The change improves behavior in future agent runs, not only documentation aesthetics.

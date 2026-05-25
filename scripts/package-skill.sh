@@ -22,11 +22,19 @@ EOF
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --version)
-      VERSION="${2:-}"
+      if [[ -z "${2:-}" ]]; then
+        echo "ERROR: --version requires a value" >&2
+        exit 2
+      fi
+      VERSION="$2"
       shift 2
       ;;
     --output-dir)
-      DIST_DIR="${2:-}"
+      if [[ -z "${2:-}" ]]; then
+        echo "ERROR: --output-dir requires a value" >&2
+        exit 2
+      fi
+      DIST_DIR="$2"
       shift 2
       ;;
     -h|--help)
@@ -71,6 +79,10 @@ if ! command -v zip >/dev/null 2>&1; then
   echo "ERROR: zip command not found" >&2
   exit 1
 fi
+if ! command -v unzip >/dev/null 2>&1; then
+  echo "ERROR: unzip command not found" >&2
+  exit 1
+fi
 
 bash "${ROOT_DIR}/scripts/validate-skill.sh"
 
@@ -90,7 +102,7 @@ find "${STAGING_DIR}" -name '.DS_Store' -o -name 'Thumbs.db' -o -name '__MACOSX'
 done
 
 ZIP_PATH="${DIST_DIR}/${SKILL_NAME}-${VERSION}.zip"
-rm -f "${ZIP_PATH}"
+rm -f "${ZIP_PATH}" "${ZIP_PATH}.sha256"
 
 (
   cd "${STAGING_DIR}"
@@ -102,4 +114,26 @@ if [[ ! -s "${ZIP_PATH}" ]]; then
   exit 1
 fi
 
+zip_listing="$(unzip -l "${ZIP_PATH}")"
+
+grep -Fq "${SKILL_NAME}/SKILL.md" <<<"${zip_listing}" || {
+  echo "ERROR: package missing SKILL.md" >&2
+  exit 1
+}
+
+if grep -E '(__MACOSX|\.DS_Store|Thumbs\.db|\.git/)' <<<"${zip_listing}"; then
+  echo "ERROR: package contains local metadata" >&2
+  exit 1
+fi
+
+if command -v shasum >/dev/null 2>&1; then
+  shasum -a 256 "${ZIP_PATH}" >"${ZIP_PATH}.sha256"
+elif command -v sha256sum >/dev/null 2>&1; then
+  sha256sum "${ZIP_PATH}" >"${ZIP_PATH}.sha256"
+else
+  echo "ERROR: shasum or sha256sum command not found" >&2
+  exit 1
+fi
+
 printf 'Created package: %s\n' "${ZIP_PATH}"
+printf 'Created checksum: %s\n' "${ZIP_PATH}.sha256"

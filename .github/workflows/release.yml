@@ -5,6 +5,10 @@ on:
     tags:
       - "v*"
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -28,9 +32,9 @@ jobs:
         run: |
           set -euo pipefail
           if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
-            gh release upload "${GITHUB_REF_NAME}" dist/*.zip --clobber
+            gh release upload "${GITHUB_REF_NAME}" dist/*.zip dist/*.sha256 --clobber
           else
-            gh release create "${GITHUB_REF_NAME}" dist/*.zip \
+            gh release create "${GITHUB_REF_NAME}" dist/*.zip dist/*.sha256 \
               --title "${GITHUB_REF_NAME}" \
               --notes "Client Delivery Guardrails release ${GITHUB_REF_NAME}"
           fi

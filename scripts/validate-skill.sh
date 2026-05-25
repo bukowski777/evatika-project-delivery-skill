@@ -18,6 +18,11 @@ require_file() {
 }
 
 required_files=(
+  ".editorconfig"
+  ".gitattributes"
+  ".gitignore"
+  "AGENTS.md"
+  "LICENSE"
   "README.md"
   "MAINTENANCE.md"
   "SECURITY.md"
@@ -25,7 +30,9 @@ required_files=(
   "CHANGELOG.md"
   "install.sh"
   "scripts/package-skill.sh"
+  "scripts/test-install.sh"
   ".github/workflows/release.yml"
+  ".github/workflows/validate.yml"
   "client-delivery-guardrails/SKILL.md"
   "client-delivery-guardrails/agents/openai.yaml"
   "client-delivery-guardrails/references/project-discovery.md"
@@ -55,8 +62,14 @@ if [[ -f "${SKILL_FILE}" ]]; then
     fail "SKILL.md must start with YAML frontmatter delimited by ---"
   fi
 
+  grep -Eq '^name: [a-z0-9-]{1,64}$' "${SKILL_FILE}" || fail "invalid skill name format"
   grep -Eq '^name: client-delivery-guardrails$' "${SKILL_FILE}" || fail "SKILL.md frontmatter must define name: client-delivery-guardrails"
   grep -Eq '^description: .{60,}$' "${SKILL_FILE}" || fail "SKILL.md frontmatter description is missing or too short"
+  description_line="$(grep -E '^description: ' "${SKILL_FILE}" | sed 's/^description: //')"
+  description_length="${#description_line}"
+  if [[ "${description_length}" -gt 700 ]]; then
+    fail "SKILL.md description is too long: ${description_length} chars; keep it under 700"
+  fi
 
   while IFS= read -r ref; do
     [[ -f "${SKILL_DIR}/${ref}" ]] || fail "router reference missing: ${ref}"
@@ -73,14 +86,34 @@ bash -n "${ROOT_DIR}/scripts/validate-skill.sh" || fail "scripts/validate-skill.
 if [[ -f "${ROOT_DIR}/scripts/package-skill.sh" ]]; then
   bash -n "${ROOT_DIR}/scripts/package-skill.sh" || fail "scripts/package-skill.sh has shell syntax errors"
 fi
+if [[ -f "${ROOT_DIR}/scripts/test-install.sh" ]]; then
+  bash -n "${ROOT_DIR}/scripts/test-install.sh" || fail "scripts/test-install.sh has shell syntax errors"
+fi
 
-secret_pattern='(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----|ghp_[A-Za-z0-9_]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,})'
+if command -v shellcheck >/dev/null 2>&1; then
+  shellcheck "${ROOT_DIR}/install.sh" "${ROOT_DIR}"/scripts/*.sh || fail "shellcheck failed"
+else
+  echo "WARN: shellcheck not installed; skipping shell lint" >&2
+fi
+
+api_token_pattern='(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----|ghp_[A-Za-z0-9_]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|[B]earer [A-Za-z0-9._~+/=-]{20,}|[e]yJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)'
+database_url_pattern='([p]ostgres|[m]ysql)://[^[:space:]]+'
+connection_string_pattern='[S]erver=.*[P]assword='
+secret_pattern="(${api_token_pattern}|${database_url_pattern}|${connection_string_pattern})"
 secret_scan_file="$(mktemp "${TMPDIR:-/tmp}/client-delivery-guardrails-secret-scan.XXXXXX")"
-if grep -RInE "${secret_pattern}" \
-  "${ROOT_DIR}/README.md" \
-  "${ROOT_DIR}/MAINTENANCE.md" \
-  "${ROOT_DIR}/SECURITY.md" \
-  "${SKILL_DIR}" >"${secret_scan_file}"; then
+if git -C "${ROOT_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  while IFS= read -r -d '' file; do
+    grep -IInE "${secret_pattern}" "${ROOT_DIR}/${file}" || true
+  done < <(git -C "${ROOT_DIR}" ls-files -z) >"${secret_scan_file}"
+else
+  grep -RInIE "${secret_pattern}" \
+    --exclude-dir=.git \
+    --exclude-dir=dist \
+    --exclude-dir=tmp \
+    "${ROOT_DIR}" >"${secret_scan_file}" || true
+fi
+
+if [[ -s "${secret_scan_file}" ]]; then
   cat "${secret_scan_file}" >&2
   fail "possible secret-like value detected"
 fi

@@ -22,6 +22,9 @@ bash scripts/validate-skill.sh
 For install changes, also run:
 
 ```bash
-bash -n install.sh scripts/validate-skill.sh
+for script in install.sh scripts/validate-skill.sh scripts/package-skill.sh scripts/test-install.sh; do
+  bash -n "$script"
+done
 ./install.sh --dry-run
+bash scripts/test-install.sh
 ```
