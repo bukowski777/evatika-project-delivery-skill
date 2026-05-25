@@ -8,6 +8,7 @@ All notable changes to this skill repository should be documented here.
 - Added Claude Code and shared-agent installation targets through `install.sh --target`.
 - Added optional legacy install backup for previous-name local copies.
 - Replaced client-context product examples with generic technical categories such as REST/SOAP APIs, ERP, workflow automation, relational databases, containers, and CI/CD.
+- Tightened README positioning and restored concrete technical examples such as SQL Server, PostgreSQL, Supabase, Power Automate, and Laravel.
 - Hardened installation with dry-run support, backup-before-replace, and configurable target directory.
 - Added validation script and CI workflow for skill structure, frontmatter, router links, shell syntax, and obvious secret patterns.
 - Added security/data-handling and testing/quality-gate references.

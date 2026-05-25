@@ -2,6 +2,8 @@
 
 Use this for containers, VPS, CI/CD workflows, container registries, secrets, deployments, rollbacks, migrations, and production maintenance.
 
+Use the Laravel notes when the release touches framework migrations, caches, queues, scheduler, storage, or workers.
+
 ## Preferred Shape
 
 - CI builds immutable artifacts/images.

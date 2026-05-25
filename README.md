@@ -7,8 +7,6 @@ Reusable Agent Skill for delivering client software safely in Codex and Claude C
 
 It helps an agent orient itself in a project, keep changes scoped, treat integrations as contracts, verify production-sensitive work, and produce useful handover notes.
 
-This repository intentionally contains no client data, secrets, private production configuration, screenshots, or private infrastructure procedures.
-
 ## Why It Exists
 
 Most AI-assisted coding examples focus on writing code. Client delivery also needs context, rollback paths, observability, security, documentation, and clear ownership.
@@ -19,8 +17,8 @@ This skill captures those habits in a reusable agent workflow for freelancers, a
 
 - project discovery, audit, stabilization, or first release;
 - cautious implementation or refactoring;
-- SQL, ERP, REST/SOAP API, webhook, relational database, workflow automation, field-service, or sync-flow work;
-- container, VPS, CI/CD, container registry, deployment, rollback, or production maintenance;
+- SQL Server/PostgreSQL/Supabase, ERP, REST/SOAP API, webhook, Power Automate, or sync-flow work;
+- Laravel, container, VPS, CI/CD, container registry, deployment, rollback, or production maintenance;
 - incident diagnosis, stale data, latency, CPU, queues, workers, or missing observability;
 - dashboard, admin, tablet, mobile, or field UX review;
 - executive, client, vendor, runbook, incident, release, or handover documentation.
@@ -95,7 +93,11 @@ Use $client-delivery to audit this production deploy flow and propose a rollback
 ```
 
 ```text
-Use $client-delivery to diagnose why this workflow automation sync is stale without changing production data.
+Use $client-delivery to diagnose why this Power Automate sync from SQL Server to Supabase is stale without changing production data.
+```
+
+```text
+Use $client-delivery to prepare a Laravel release plan with migrations, smoke checks, and rollback steps.
 ```
 
 ```text

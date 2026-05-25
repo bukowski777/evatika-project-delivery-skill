@@ -1,6 +1,6 @@
 ---
 name: client-delivery
-description: Use when delivering client software changes that require project orientation, scoped implementation, integration contracts, production-safe release, incident diagnosis, UX review, security/data handling, or operator/client handover across web apps, REST/SOAP APIs, SQL/ERP, relational databases, workflow automation, containerized services, CI/CD, and sync flows.
+description: Use when delivering client software changes that require project orientation, scoped implementation, integration contracts, production-safe release, incident diagnosis, UX review, security/data handling, or operator/client handover across web apps, REST/SOAP APIs, SQL/ERP, Supabase/PostgreSQL, Power Automate, Laravel, containerized services, CI/CD, and sync flows.
 ---
 
 # Client Delivery
@@ -18,8 +18,8 @@ Use this skill for client delivery work where correctness depends on context, co
 Typical triggers:
 
 - project discovery, first release, audit, stabilization, or cautious refactoring;
-- SQL/ERP, relational database, REST/SOAP API, webhook, workflow automation, field-service, or sync-flow work;
-- container, VPS, CI/CD, container registry, release, rollback, or production maintenance;
+- SQL/ERP, Supabase/PostgreSQL, REST/SOAP API, webhook, Power Automate, field-service, or sync-flow work;
+- Laravel, container, VPS, CI/CD, container registry, release, rollback, or production maintenance;
 - incident diagnosis, CPU/latency/stale data/failed jobs, observability, or support escalation;
 - dashboard, admin, mobile/tablet, field workflow, labels, copy, or client-facing UX review;
 - executive docs, vendor requests, runbooks, delivery reports, incident notes, PDFs, or handover.

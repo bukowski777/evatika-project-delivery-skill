@@ -1,6 +1,6 @@
 # Integration Contracts
 
-Use this for SQL, ERP, relational databases, workflow automation platforms, REST/SOAP APIs, webhooks, sync jobs, queues, projections, and watermarks.
+Use this for SQL, ERP, Supabase/PostgreSQL, workflow automation platforms such as Power Automate, REST/SOAP APIs, webhooks, sync jobs, queues, projections, and watermarks.
 
 ## Contract Rules
 
