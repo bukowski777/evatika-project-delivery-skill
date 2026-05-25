@@ -4,6 +4,10 @@ All notable changes to this skill repository should be documented here.
 
 ## Unreleased
 
+## v0.3.3 - 2026-05-25
+
+- Updated GitHub Actions checkout steps to `actions/checkout@v6` to avoid Node.js 20 runtime deprecation warnings.
+
 ## v0.3.2 - 2026-05-25
 
 - Fixed ShellCheck issues in the installer and validation script so CI validation can enforce shell linting.
