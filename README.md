@@ -1,28 +1,64 @@
 # Evatika Project Delivery Skill
 
-Codex skill for scoping, building, diagnosing, deploying, and documenting Evatika client projects with production-grade rigor.
+Reusable Codex skill for delivering client software safely: scoping, implementation, integration contracts, deployment, diagnosis, UX review, security, and handover.
 
-The skill is intentionally generic but technical. It formalizes reusable practices learned from real client projects: SQL/API/Power Automate/Supabase integrations, Docker/GitHub Actions/VPS deployment, production incidents, observability, field UX, and executive/vendor documentation.
+The skill captures reusable delivery practices from technical client projects involving SQL/API/Power Automate/Supabase integrations, Docker/GitHub Actions/VPS deployment, production incidents, observability, field UX, and executive/vendor documentation.
 
-This repository does not contain client data, secrets, production configuration, or procedures tied to private infrastructure. Examples stay at the level of practices and checklists.
+This repository intentionally contains no client data, secrets, private production configuration, screenshots, or procedures tied to private infrastructure.
 
-## Why This Exists
+## When to Use
 
-Most AI-assisted coding examples focus on implementing a feature. Client delivery also needs production safety: scoped changes, integration contracts, rollback paths, observability, operator handover, and clear documentation. This skill captures those delivery habits in a reusable Codex workflow.
+Use the skill when a task needs more than a code edit:
 
-## Contents
+- project discovery or unclear production path;
+- cautious implementation or refactoring;
+- SQL, ERP, Supabase/PostgreSQL, API, webhook, Power Automate, Praxedo, n8n, or sync-flow work;
+- Docker, VPS, GitHub Actions, GHCR, release, rollback, or production-maintenance work;
+- production incident diagnosis, latency/CPU issues, stale data, failed queues, or missing observability;
+- dashboard, mobile/tablet, admin, or field UX review;
+- executive/client/vendor documentation, handover, runbook, incident note, or release report.
+
+## What It Enforces
+
+- Read the project before changing it.
+- Separate production, target product, prototype, demo, legacy, and workaround paths.
+- Treat integration schemas, payloads, watermarks, and projected tables as contracts.
+- Keep production changes reversible with backup, health check, smoke check, and rollback path.
+- Never add secrets or private client data to code, docs, logs, screenshots, or examples.
+- Verify with tests, probes, screenshots, logs, or runtime checks before claiming completion.
+- Document operational changes where future maintainers will actually look.
+
+## Repository Layout
 
 ```text
-evatika-project-delivery/
-  SKILL.md
-  agents/openai.yaml
-  references/
-    project-discovery.md
-    integration-contracts.md
-    production-release.md
-    diagnosis-and-observability.md
-    ux-mobile-review.md
-    documentation-and-handover.md
+.
+|-- AGENTS.md
+|-- CHANGELOG.md
+|-- CONTRIBUTING.md
+|-- MAINTENANCE.md
+|-- SECURITY.md
+|-- install.sh
+|-- scripts/
+|   `-- validate-skill.sh
+`-- evatika-project-delivery/
+    |-- SKILL.md
+    |-- agents/
+    |   `-- openai.yaml
+    |-- references/
+    |   |-- diagnosis-and-observability.md
+    |   |-- documentation-and-handover.md
+    |   |-- integration-contracts.md
+    |   |-- production-release.md
+    |   |-- project-discovery.md
+    |   |-- security-and-data-handling.md
+    |   |-- testing-and-quality-gates.md
+    |   `-- ux-mobile-review.md
+    `-- templates/
+        |-- delivery-report.md
+        |-- incident-write-up.md
+        |-- integration-request.md
+        |-- release-plan.md
+        `-- runbook.md
 ```
 
 ## Local Installation
@@ -33,13 +69,30 @@ From the repository root:
 ./install.sh
 ```
 
-The script copies the `evatika-project-delivery` directory into:
+The installer copies `evatika-project-delivery/` into:
 
 ```text
 ~/.codex/skills/evatika-project-delivery
 ```
 
-If the target directory already exists, it is replaced with the repository version.
+If a previous local install exists, it is backed up before replacement.
+
+Useful options:
+
+```bash
+./install.sh --dry-run
+SKILL_TARGET_DIR="$HOME/.codex/skills/evatika-project-delivery" ./install.sh
+```
+
+## Validation
+
+Run the repository checks before committing or distributing the skill:
+
+```bash
+bash scripts/validate-skill.sh
+```
+
+The validation script checks required files, `SKILL.md` frontmatter, router links, shell syntax, and obvious secret patterns.
 
 ## Usage
 
@@ -49,35 +102,30 @@ In Codex, ask explicitly:
 Use $evatika-project-delivery for this task.
 ```
 
-The skill can also be triggered implicitly for tasks such as:
+Examples:
 
-- client project development;
-- cautious audit or refactoring;
-- SQL/API/Power Automate/Supabase integration;
-- Docker/VPS/GitHub Actions deployment;
-- production incident, CPU, latency, or sync diagnosis;
-- mobile/tablet UX review;
-- executive, vendor, or runbook documentation.
+```text
+Use $evatika-project-delivery to audit this production deploy flow and propose a rollback-safe release plan.
+```
 
-## Principles
+```text
+Use $evatika-project-delivery to diagnose why this Power Automate sync is stale without changing production data.
+```
 
-- Read the project before changing it.
-- Separate prototype, target product, production, legacy, and temporary workaround.
-- Treat integrations as contracts.
-- Never expose secrets.
-- Verify before declaring the work complete.
-- Document decisions and procedures.
-- Deploy with a known rollback path.
+```text
+Use $evatika-project-delivery to review the tablet UX and produce a client-ready delivery report.
+```
 
-## Maintenance
+## Maintenance Rules
 
 Keep the skill short and actionable:
 
-- `SKILL.md` contains the invariants and the router to references;
-- details live in `references/`;
-- add scripts only when a procedure is repeated across several projects;
-- avoid turning the skill into a project history.
+- `SKILL.md` contains invariants, workflow, gates, and the reference router;
+- detailed procedures live in `references/`;
+- reusable output shapes live in `templates/`;
+- scripts exist only for repeated repository-level maintenance;
+- never turn the skill into a private project history.
 
 ## License
 
-This project is published under the MIT license. See `LICENSE`.
+MIT. See `LICENSE`.

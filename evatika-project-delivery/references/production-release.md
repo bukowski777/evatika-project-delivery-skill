@@ -1,6 +1,6 @@
 # Production Release
 
-Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, deployments, rollbacks, and production maintenance.
+Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, deployments, rollbacks, migrations, and production maintenance.
 
 ## Preferred Shape
 
@@ -10,6 +10,7 @@ Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, de
 - `.env` and secrets stay out of Git.
 - Deploy scripts are idempotent and print service state.
 - Rollback is redeploying the previous known-good tag.
+- Operators can see deployed version and deployment time.
 
 ## Pre-Deploy Checklist
 
@@ -20,6 +21,22 @@ Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, de
 - Backup plan known for migrations/data changes.
 - Rollback tag/command known.
 - Maintenance impact understood.
+- Health endpoint and business smoke test identified.
+
+## Release Plan
+
+Use `templates/release-plan.md` for non-trivial releases. At minimum, write:
+
+- Scope:
+- Environments:
+- Artifact/tag/SHA:
+- Config/secrets touched:
+- Data migration/backfill:
+- Pre-checks:
+- Deploy command/workflow:
+- Smoke checks:
+- Rollback command/tag:
+- Owner and decision point:
 
 ## Docker / VPS Rules
 
@@ -28,6 +45,15 @@ Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, de
 - Never run `docker compose down -v` on production data.
 - Do not remove containers/volumes/networks unless ownership and impact are verified.
 - Keep demo/legacy stacks separate from target production.
+- Prefer explicit compose project names when multiple stacks share a host.
+
+## Migrations and Data Changes
+
+- Identify whether the migration is forward-only or rollback-safe.
+- Back up before destructive or hard-to-reverse changes.
+- Separate schema migration from backfill when possible.
+- Keep backfills bounded, observable, resumable, and idempotent.
+- Verify row counts and representative business records after migration.
 
 ## Laravel Release Notes
 
@@ -44,6 +70,16 @@ Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, de
 - Do not echo secrets.
 - Protect main branch when release maturity requires it.
 - Prefer deployment environments with approval for production.
+- Print enough version/service state to diagnose a failed deploy without leaking secrets.
+
+## No-Go Signals
+
+- Rollback tag unknown.
+- Production target ambiguous.
+- Secrets missing or copied manually into code/docs.
+- Migration touches critical data with no backup plan.
+- Health check unavailable for a user-facing production service.
+- Worktree contains unrelated edits.
 
 ## Post-Deploy
 
@@ -52,3 +88,4 @@ Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, de
 - Execute one functional smoke test.
 - Confirm admin observability shows the deployed version.
 - Keep previous tag for rollback.
+- Summarize residual risk and exact next action, if any.

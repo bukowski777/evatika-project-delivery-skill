@@ -1,25 +1,41 @@
 # Skill Maintenance
 
-## When to Update the Skill
+## Update the Skill When
 
-- An Evatika practice repeats across several projects.
-- A costly mistake could have been avoided with a checklist.
-- A fragile procedure deserves a script or dedicated reference.
-- A vocabulary term or distinction keeps coming back in client projects.
+- A practice repeats across several Evatika/client projects.
+- A costly mistake could have been prevented by a checklist or gate.
+- A fragile procedure deserves a script, reference, or template.
+- A vocabulary distinction keeps recurring, such as source of truth, projection, legacy path, demo path, or rollback tag.
 
-## When Not to Update It
+## Do Not Update It When
 
-- A case is too specific to one client.
-- A narrative history of an already resolved incident.
-- A trivial rule already covered by global instructions.
-- A procedure that should be automated directly in a project script.
+- The case is specific to one client, environment, or incident.
+- The addition would expose private infrastructure, secrets, screenshots, IPs, URLs, or ticket history.
+- The rule is generic enough to belong in normal engineering habits rather than this skill.
+- The procedure should live in a project repository script instead of a reusable skill.
+
+## File Ownership
+
+- `evatika-project-delivery/SKILL.md`: mission, invocation scope, operating defaults, workflow, gates, and router.
+- `evatika-project-delivery/references/`: detailed operational procedures by domain.
+- `evatika-project-delivery/templates/`: reusable output structures.
+- `scripts/`: repository maintenance checks only.
+- `install.sh`: local installation helper only.
 
 ## Pre-Commit Verification
 
 ```bash
+bash scripts/validate-skill.sh
+./install.sh --dry-run
 find evatika-project-delivery -maxdepth 3 -type f | sort
-sed -n '1,120p' evatika-project-delivery/SKILL.md
-./install.sh
+sed -n '1,180p' evatika-project-delivery/SKILL.md
 ```
 
-`SKILL.md` should stay compact. Details belong in `references/`.
+## Review Checklist
+
+- `SKILL.md` stayed compact and did not become a project history.
+- New references are linked from the router when relevant.
+- Templates contain placeholders, not real client data.
+- Install behavior is reversible or dry-run testable.
+- CI can validate the package without external services.
+- The change improves behavior in future Codex runs, not only documentation aesthetics.
