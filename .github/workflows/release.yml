@@ -32,5 +32,5 @@ jobs:
           else
             gh release create "${GITHUB_REF_NAME}" dist/*.zip \
               --title "${GITHUB_REF_NAME}" \
-              --notes "Codex skill release ${GITHUB_REF_NAME}"
+              --notes "Client Delivery Guardrails release ${GITHUB_REF_NAME}"
           fi

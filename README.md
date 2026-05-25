@@ -1,9 +1,9 @@
-# Client Delivery Skill
+# Client Delivery Guardrails Skill
 
-[![Validate skill](https://github.com/bukowski777/client-delivery-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/bukowski777/client-delivery-skill/actions/workflows/validate.yml)
+[![Validate skill](https://github.com/bukowski777/client-delivery-guardrails-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/bukowski777/client-delivery-guardrails-skill/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Reusable Agent Skill for delivering client software safely in Codex and Claude Code.
+Reusable Agent Skill for delivery guardrails in Codex and Claude Code.
 
 It helps an agent orient itself in a project, keep changes scoped, treat integrations as contracts, verify production-sensitive work, and produce useful handover notes.
 
@@ -56,12 +56,12 @@ Install across Codex, Claude Code, and the shared agent skills directory:
 Target paths:
 
 ```text
-~/.codex/skills/client-delivery
-~/.claude/skills/client-delivery
-~/.agents/skills/client-delivery
+~/.codex/skills/client-delivery-guardrails
+~/.claude/skills/client-delivery-guardrails
+~/.agents/skills/client-delivery-guardrails
 ```
 
-If a previous local install exists, it is backed up before replacement. The installer also backs up the legacy skill folder when it exists in the same target root, so old and new skill names do not stay active side by side.
+If a previous local install exists, it is backed up before replacement. The installer also backs up the earlier `client-delivery` folder when it exists in the same target root, so old and new skill names do not stay active side by side.
 
 Claude Code installs omit the Codex-specific `agents/openai.yaml` metadata file. The source package still keeps it for Codex compatibility.
 
@@ -69,7 +69,7 @@ Useful options:
 
 ```bash
 ./install.sh --dry-run
-SKILL_TARGET_DIR="$HOME/.codex/skills/client-delivery" ./install.sh
+SKILL_TARGET_DIR="$HOME/.codex/skills/client-delivery-guardrails" ./install.sh
 ```
 
 ## Use In Codex And Claude Code
@@ -77,40 +77,40 @@ SKILL_TARGET_DIR="$HOME/.codex/skills/client-delivery" ./install.sh
 In Codex, ask explicitly:
 
 ```text
-Use $client-delivery for this task.
+Use $client-delivery-guardrails for this task.
 ```
 
 In Claude Code, invoke it directly:
 
 ```text
-/client-delivery
+/client-delivery-guardrails
 ```
 
 Examples:
 
 ```text
-Use $client-delivery to audit this production deploy flow and propose a rollback-safe release plan.
+Use $client-delivery-guardrails to audit this production deploy flow and propose a rollback-safe release plan.
 ```
 
 ```text
-Use $client-delivery to diagnose why this Power Automate sync from SQL Server to Supabase is stale without changing production data.
+Use $client-delivery-guardrails to diagnose why this Power Automate sync from SQL Server to Supabase is stale without changing production data.
 ```
 
 ```text
-Use $client-delivery to prepare a Laravel release plan with migrations, smoke checks, and rollback steps.
+Use $client-delivery-guardrails to prepare a Laravel release plan with migrations, smoke checks, and rollback steps.
 ```
 
 ```text
-Use $client-delivery to review the tablet UX and produce a client-ready delivery report.
+Use $client-delivery-guardrails to review the tablet UX and produce a client-ready delivery report.
 ```
 
 ## Included
 
 | Path | Purpose |
 | --- | --- |
-| `client-delivery/SKILL.md` | Main skill, workflow, risk gates, and reference router. |
-| `client-delivery/references/` | Detailed guidance for discovery, integrations, release, diagnosis, UX, security, testing, and handover. |
-| `client-delivery/templates/` | Reusable report, incident, integration request, release plan, and runbook structures. |
+| `client-delivery-guardrails/SKILL.md` | Main skill, workflow, risk gates, and reference router. |
+| `client-delivery-guardrails/references/` | Detailed guidance for discovery, integrations, release, diagnosis, UX, security, testing, and handover. |
+| `client-delivery-guardrails/templates/` | Reusable report, incident, integration request, release plan, and runbook structures. |
 | `scripts/validate-skill.sh` | Local package validation and obvious secret-pattern checks. |
 | `scripts/package-skill.sh` | Builds a release zip containing the installable skill directory. |
 | `.github/workflows/validate.yml` | CI validation on push and pull request. |
@@ -133,16 +133,16 @@ The validation script checks required files, `SKILL.md` frontmatter, router link
 Build a local release archive:
 
 ```bash
-scripts/package-skill.sh --version v0.1.0
+scripts/package-skill.sh --version v0.3.0
 ```
 
-The archive is written to `dist/` and contains the installable `client-delivery/` skill directory.
+The archive is written to `dist/` and contains the installable `client-delivery-guardrails/` skill directory.
 
 To publish a hosted release, push a version tag:
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.3.0
+git push origin v0.3.0
 ```
 
 The `Release package` workflow validates the skill, creates the zip, and attaches it to the hosted release for that tag.

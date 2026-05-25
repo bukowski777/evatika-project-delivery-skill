@@ -2,14 +2,14 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILL_NAME="client-delivery"
+SKILL_NAME="client-delivery-guardrails"
 SKILL_DIR="${ROOT_DIR}/${SKILL_NAME}"
 DIST_DIR="${ROOT_DIR}/dist"
 VERSION=""
 
 usage() {
   cat <<'EOF'
-Package the client-delivery Agent Skill as a release zip.
+Package the client-delivery-guardrails Agent Skill as a release zip.
 
 Usage:
   scripts/package-skill.sh [--version VERSION] [--output-dir DIR] [--help]
@@ -75,7 +75,7 @@ fi
 bash "${ROOT_DIR}/scripts/validate-skill.sh"
 
 mkdir -p "${DIST_DIR}"
-STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/client-delivery-package.XXXXXX")"
+STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/client-delivery-guardrails-package.XXXXXX")"
 cleanup() {
   rm -rf "${STAGING_DIR}"
 }

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILL_DIR="${ROOT_DIR}/client-delivery"
+SKILL_DIR="${ROOT_DIR}/client-delivery-guardrails"
 SKILL_FILE="${SKILL_DIR}/SKILL.md"
 AGENT_FILE="${SKILL_DIR}/agents/openai.yaml"
 failures=0
@@ -26,21 +26,21 @@ required_files=(
   "install.sh"
   "scripts/package-skill.sh"
   ".github/workflows/release.yml"
-  "client-delivery/SKILL.md"
-  "client-delivery/agents/openai.yaml"
-  "client-delivery/references/project-discovery.md"
-  "client-delivery/references/integration-contracts.md"
-  "client-delivery/references/production-release.md"
-  "client-delivery/references/diagnosis-and-observability.md"
-  "client-delivery/references/ux-mobile-review.md"
-  "client-delivery/references/documentation-and-handover.md"
-  "client-delivery/references/security-and-data-handling.md"
-  "client-delivery/references/testing-and-quality-gates.md"
-  "client-delivery/templates/delivery-report.md"
-  "client-delivery/templates/incident-write-up.md"
-  "client-delivery/templates/integration-request.md"
-  "client-delivery/templates/release-plan.md"
-  "client-delivery/templates/runbook.md"
+  "client-delivery-guardrails/SKILL.md"
+  "client-delivery-guardrails/agents/openai.yaml"
+  "client-delivery-guardrails/references/project-discovery.md"
+  "client-delivery-guardrails/references/integration-contracts.md"
+  "client-delivery-guardrails/references/production-release.md"
+  "client-delivery-guardrails/references/diagnosis-and-observability.md"
+  "client-delivery-guardrails/references/ux-mobile-review.md"
+  "client-delivery-guardrails/references/documentation-and-handover.md"
+  "client-delivery-guardrails/references/security-and-data-handling.md"
+  "client-delivery-guardrails/references/testing-and-quality-gates.md"
+  "client-delivery-guardrails/templates/delivery-report.md"
+  "client-delivery-guardrails/templates/incident-write-up.md"
+  "client-delivery-guardrails/templates/integration-request.md"
+  "client-delivery-guardrails/templates/release-plan.md"
+  "client-delivery-guardrails/templates/runbook.md"
 )
 
 for file in "${required_files[@]}"; do
@@ -55,7 +55,7 @@ if [[ -f "${SKILL_FILE}" ]]; then
     fail "SKILL.md must start with YAML frontmatter delimited by ---"
   fi
 
-  grep -Eq '^name: client-delivery$' "${SKILL_FILE}" || fail "SKILL.md frontmatter must define name: client-delivery"
+  grep -Eq '^name: client-delivery-guardrails$' "${SKILL_FILE}" || fail "SKILL.md frontmatter must define name: client-delivery-guardrails"
   grep -Eq '^description: .{60,}$' "${SKILL_FILE}" || fail "SKILL.md frontmatter description is missing or too short"
 
   while IFS= read -r ref; do
@@ -75,7 +75,7 @@ if [[ -f "${ROOT_DIR}/scripts/package-skill.sh" ]]; then
 fi
 
 secret_pattern='(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----|ghp_[A-Za-z0-9_]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,})'
-secret_scan_file="$(mktemp "${TMPDIR:-/tmp}/client-delivery-secret-scan.XXXXXX")"
+secret_scan_file="$(mktemp "${TMPDIR:-/tmp}/client-delivery-guardrails-secret-scan.XXXXXX")"
 if grep -RInE "${secret_pattern}" \
   "${ROOT_DIR}/README.md" \
   "${ROOT_DIR}/MAINTENANCE.md" \

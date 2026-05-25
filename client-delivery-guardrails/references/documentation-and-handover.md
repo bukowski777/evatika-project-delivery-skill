@@ -42,8 +42,11 @@ Before sharing externally:
 
 Use `templates/delivery-report.md`. Keep final reports short and operational:
 
+- source artifacts used as evidence;
 - what changed;
+- effort by phase when useful for client understanding;
 - what was verified;
+- optional diagram only when it makes the delivery clearer;
 - where it is deployed or stored;
 - what remains risky or pending;
 - exact next action if one is needed.

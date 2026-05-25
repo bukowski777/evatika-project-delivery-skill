@@ -2,23 +2,23 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILL_NAME="client-delivery"
-LEGACY_SKILL_NAME="${LEGACY_SKILL_NAME:-}"
+SKILL_NAME="client-delivery-guardrails"
+LEGACY_SKILL_NAME="${LEGACY_SKILL_NAME:-client-delivery}"
 SOURCE_DIR="${ROOT_DIR}/${SKILL_NAME}"
 DRY_RUN=0
 TARGETS=()
 
 usage() {
   cat <<'EOF'
-Install the client-delivery skill locally.
+Install the client-delivery-guardrails skill locally.
 
 Usage:
   ./install.sh [--target TARGET] [--dry-run] [--help]
 
 Targets:
-  codex        Install to ~/.codex/skills/client-delivery (default)
-  claude-code  Install to ~/.claude/skills/client-delivery
-  agents       Install to ~/.agents/skills/client-delivery
+  codex        Install to ~/.codex/skills/client-delivery-guardrails (default)
+  claude-code  Install to ~/.claude/skills/client-delivery-guardrails
+  agents       Install to ~/.agents/skills/client-delivery-guardrails
   all          Install to codex, claude-code, and agents
 
 Environment:
@@ -150,7 +150,7 @@ prepare_staging() {
   local parent="$2"
   local staging_dir
 
-  staging_dir="$(mktemp -d "${parent}/.client-delivery-install.XXXXXX")"
+  staging_dir="$(mktemp -d "${parent}/.client-delivery-guardrails-install.XXXXXX")"
   cp -R "${SOURCE_DIR}/." "${staging_dir}/"
   find "${staging_dir}" -name '.DS_Store' -o -name 'Thumbs.db' -o -name '__MACOSX' | while IFS= read -r metadata_file; do
     rm -rf "${metadata_file}"
@@ -226,7 +226,7 @@ install_target() {
     exit 1
   fi
 
-  printf 'Installed client-delivery skill to %s\n' "${target_path}"
+  printf 'Installed client-delivery-guardrails skill to %s\n' "${target_path}"
 }
 
 dedupe_targets

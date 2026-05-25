@@ -21,4 +21,4 @@ jobs:
         run: bash scripts/validate-skill.sh
 
       - name: Build package smoke test
-        run: bash scripts/package-skill.sh --version ci --output-dir /tmp/client-delivery-dist
+        run: bash scripts/package-skill.sh --version ci --output-dir /tmp/client-delivery-guardrails-dist

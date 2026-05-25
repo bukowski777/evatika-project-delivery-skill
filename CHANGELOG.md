@@ -4,9 +4,12 @@ All notable changes to this skill repository should be documented here.
 
 ## 2026-05-25
 
-- Renamed the skill from its previous company-oriented name to the function-oriented `client-delivery`.
+- Renamed the public skill identity to `client-delivery-guardrails` to avoid collisions with existing public skills.
+- Kept the name function-oriented after removing the earlier company-oriented identity.
 - Added Claude Code and shared-agent installation targets through `install.sh --target`.
+- Added automatic local backup of the previous `client-delivery` install folder during installation.
 - Added optional legacy install backup for previous-name local copies.
+- Expanded the delivery report template with source artifacts, phase-level effort summary, and an optional diagram slot.
 - Replaced client-context product examples with generic technical categories such as REST/SOAP APIs, ERP, workflow automation, relational databases, containers, and CI/CD.
 - Tightened README positioning and restored concrete technical examples such as SQL Server, PostgreSQL, Supabase, Power Automate, and Laravel.
 - Hardened installation with dry-run support, backup-before-replace, and configurable target directory.

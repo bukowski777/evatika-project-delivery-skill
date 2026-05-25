@@ -1,9 +1,9 @@
 ---
-name: client-delivery
+name: client-delivery-guardrails
 description: Use when delivering client software changes that require project orientation, scoped implementation, integration contracts, production-safe release, incident diagnosis, UX review, security/data handling, or operator/client handover across web apps, REST/SOAP APIs, SQL/ERP, Supabase/PostgreSQL, Power Automate, Laravel, containerized services, CI/CD, and sync flows.
 ---
 
-# Client Delivery
+# Client Delivery Guardrails
 
 ## Mission
 

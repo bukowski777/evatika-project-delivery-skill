@@ -16,9 +16,9 @@
 
 ## File Ownership
 
-- `client-delivery/SKILL.md`: mission, invocation scope, operating defaults, workflow, gates, and router.
-- `client-delivery/references/`: detailed operational procedures by domain.
-- `client-delivery/templates/`: reusable output structures.
+- `client-delivery-guardrails/SKILL.md`: mission, invocation scope, operating defaults, workflow, gates, and router.
+- `client-delivery-guardrails/references/`: detailed operational procedures by domain.
+- `client-delivery-guardrails/templates/`: reusable output structures.
 - `scripts/`: repository maintenance, validation, and packaging helpers only.
 - `install.sh`: local installation helper only.
 
@@ -28,8 +28,8 @@
 bash scripts/validate-skill.sh
 ./install.sh --dry-run
 scripts/package-skill.sh --version test-package
-find client-delivery -maxdepth 3 -type f | sort
-sed -n '1,180p' client-delivery/SKILL.md
+find client-delivery-guardrails -maxdepth 3 -type f | sort
+sed -n '1,180p' client-delivery-guardrails/SKILL.md
 ```
 
 ## Review Checklist
