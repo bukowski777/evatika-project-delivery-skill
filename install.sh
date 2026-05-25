@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_NAME="client-delivery"
-LEGACY_SKILL_NAME="evatika-project-delivery"
+LEGACY_SKILL_NAME="${LEGACY_SKILL_NAME:-}"
 SOURCE_DIR="${ROOT_DIR}/${SKILL_NAME}"
 DRY_RUN=0
 TARGETS=()
@@ -25,6 +25,7 @@ Environment:
   CODEX_HOME        Override Codex home. Default: ~/.codex
   CLAUDE_HOME       Override Claude Code home. Default: ~/.claude
   AGENTS_HOME       Override shared agents home. Default: ~/.agents
+  LEGACY_SKILL_NAME Optional previous local skill directory to back up.
   SKILL_TARGET_DIR  Override install target directory for a single custom install.
   SKILL_BACKUP_DIR  Override backup directory. Default: <target skills root>/.backups
 EOF
@@ -183,7 +184,10 @@ install_target() {
   target_path="$(target_dir "${target}")"
   parent="$(dirname "${target_path}")"
   backup_root="${SKILL_BACKUP_DIR:-${root}/.backups}"
-  legacy_path="${parent}/${LEGACY_SKILL_NAME}"
+  legacy_path=""
+  if [[ -n "${LEGACY_SKILL_NAME}" ]]; then
+    legacy_path="${parent}/${LEGACY_SKILL_NAME}"
+  fi
   label="$(target_label "${target}")"
 
   printf '\n[%s]\n' "${label}"
@@ -194,7 +198,7 @@ install_target() {
     if [[ -d "${target_path}" ]]; then
       printf 'Dry run: existing target would be backed up under %s\n' "${backup_root}"
     fi
-    if [[ -d "${legacy_path}" && "${legacy_path}" != "${target_path}" ]]; then
+    if [[ -n "${legacy_path}" && -d "${legacy_path}" && "${legacy_path}" != "${target_path}" ]]; then
       printf 'Dry run: legacy install would be backed up from %s\n' "${legacy_path}"
     fi
     echo 'Dry run: no files changed.'
@@ -210,7 +214,7 @@ install_target() {
   trap cleanup EXIT
 
   backup_existing_dir "${target_path}" "${backup_root}" "${SKILL_NAME}"
-  if [[ "${legacy_path}" != "${target_path}" ]]; then
+  if [[ -n "${legacy_path}" && "${legacy_path}" != "${target_path}" ]]; then
     backup_existing_dir "${legacy_path}" "${backup_root}" "${LEGACY_SKILL_NAME}"
   fi
 

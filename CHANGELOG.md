@@ -4,15 +4,16 @@ All notable changes to this skill repository should be documented here.
 
 ## 2026-05-25
 
-- Renamed the skill from `evatika-project-delivery` to the function-oriented `client-delivery`.
+- Renamed the skill from its previous company-oriented name to the function-oriented `client-delivery`.
 - Added Claude Code and shared-agent installation targets through `install.sh --target`.
-- Added legacy install backup for existing `evatika-project-delivery` local copies.
+- Added optional legacy install backup for previous-name local copies.
+- Replaced client-context product examples with generic technical categories such as REST/SOAP APIs, ERP, workflow automation, relational databases, containers, and CI/CD.
 - Hardened installation with dry-run support, backup-before-replace, and configurable target directory.
-- Added validation script and GitHub Actions workflow for skill structure, frontmatter, router links, shell syntax, and obvious secret patterns.
+- Added validation script and CI workflow for skill structure, frontmatter, router links, shell syntax, and obvious secret patterns.
 - Added security/data-handling and testing/quality-gate references.
 - Added reusable delivery, incident, integration request, release plan, and runbook templates.
 - Added repository agent instructions, contribution guidance, and maintenance checklist updates.
 - Kept validation compatible with macOS Bash 3.2.
 - Excluded local metadata files from validation and installation output.
-- Revised README for public GitHub presentation and clearer onboarding.
-- Added release zip packaging script and GitHub release workflow for `v*` tags.
+- Revised README for public repository presentation and clearer onboarding.
+- Added release zip packaging script and hosted release workflow for `v*` tags.

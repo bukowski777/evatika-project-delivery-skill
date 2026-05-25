@@ -19,8 +19,8 @@ This skill captures those habits in a reusable agent workflow for freelancers, a
 
 - project discovery, audit, stabilization, or first release;
 - cautious implementation or refactoring;
-- SQL, ERP, API, webhook, Supabase/PostgreSQL, Power Automate, Praxedo, n8n, or sync-flow work;
-- Docker, VPS, GitHub Actions, GHCR, deployment, rollback, or production maintenance;
+- SQL, ERP, REST/SOAP API, webhook, relational database, workflow automation, field-service, or sync-flow work;
+- container, VPS, CI/CD, container registry, deployment, rollback, or production maintenance;
 - incident diagnosis, stale data, latency, CPU, queues, workers, or missing observability;
 - dashboard, admin, tablet, mobile, or field UX review;
 - executive, client, vendor, runbook, incident, release, or handover documentation.
@@ -63,7 +63,7 @@ Target paths:
 ~/.agents/skills/client-delivery
 ```
 
-If a previous local install exists, it is backed up before replacement. The installer also backs up the legacy `evatika-project-delivery` folder when it exists in the same target root, so the old and new skill names do not stay active side by side.
+If a previous local install exists, it is backed up before replacement. The installer also backs up the legacy skill folder when it exists in the same target root, so old and new skill names do not stay active side by side.
 
 Claude Code installs omit the Codex-specific `agents/openai.yaml` metadata file. The source package still keeps it for Codex compatibility.
 
@@ -95,7 +95,7 @@ Use $client-delivery to audit this production deploy flow and propose a rollback
 ```
 
 ```text
-Use $client-delivery to diagnose why this Power Automate sync is stale without changing production data.
+Use $client-delivery to diagnose why this workflow automation sync is stale without changing production data.
 ```
 
 ```text
@@ -111,8 +111,8 @@ Use $client-delivery to review the tablet UX and produce a client-ready delivery
 | `client-delivery/templates/` | Reusable report, incident, integration request, release plan, and runbook structures. |
 | `scripts/validate-skill.sh` | Local package validation and obvious secret-pattern checks. |
 | `scripts/package-skill.sh` | Builds a release zip containing the installable skill directory. |
-| `.github/workflows/validate.yml` | GitHub Actions validation on push and pull request. |
-| `.github/workflows/release.yml` | GitHub Actions release packaging on `v*` tags. |
+| `.github/workflows/validate.yml` | CI validation on push and pull request. |
+| `.github/workflows/release.yml` | Release packaging on `v*` tags. |
 | `install.sh` | Local installer with Codex, Claude Code, shared-agents, dry-run, backup, and configurable target support. |
 
 ## Validate
@@ -136,20 +136,20 @@ scripts/package-skill.sh --version v0.1.0
 
 The archive is written to `dist/` and contains the installable `client-delivery/` skill directory.
 
-To publish a GitHub release, push a version tag:
+To publish a hosted release, push a version tag:
 
 ```bash
 git tag v0.1.0
 git push origin v0.1.0
 ```
 
-The `Release package` workflow validates the skill, creates the zip, and attaches it to the GitHub release for that tag.
+The `Release package` workflow validates the skill, creates the zip, and attaches it to the hosted release for that tag.
 
 ## Public Safety Rules
 
 Do not add:
 
-- client names, private URLs, IPs, account names, ticket IDs, screenshots, production logs, or database dumps;
+- client names, private URLs, IPs, account names, ticket IDs, vendor/product names from private client contexts, screenshots, production logs, or database dumps;
 - API keys, tokens, passwords, SSH keys, certificates, cookies, session values, or `.env` files;
 - real examples containing personal data, financial data, credentials, proprietary schemas, or private infrastructure commands.
 

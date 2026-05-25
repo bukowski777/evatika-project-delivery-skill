@@ -6,7 +6,7 @@ Use this when the project, production path, requested change, or active code are
 
 - Read `AGENTS.md`, README, deployment docs, changelog, architecture notes, and existing runbooks.
 - Locate the active app, legacy/demo/prototype areas, infra files, CI workflows, scripts, docs, fixtures, and generated artifacts.
-- Identify production entrypoints: domain, VPS/container, GitHub Actions, cron/scheduler, queues, workers, external automation flows.
+- Identify production entrypoints: domain, VPS/container, CI workflows, cron/scheduler, queues, workers, external automation flows.
 - Identify data sources: operational DB, projection/read model, external APIs, files, queues, cache, automation state, and manual imports.
 - Identify users and personas: admin, field user, client, back office, operator, manager, service provider.
 - Check `git status --short` before editing.

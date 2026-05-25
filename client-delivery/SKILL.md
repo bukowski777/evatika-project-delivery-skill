@@ -1,6 +1,6 @@
 ---
 name: client-delivery
-description: Use when delivering client software changes that require project orientation, scoped implementation, integration contracts, production-safe release, incident diagnosis, UX review, security/data handling, or operator/client handover across web apps, APIs, Docker/VPS/GitHub Actions, SQL/ERP, Supabase/PostgreSQL, Power Automate, Praxedo, n8n, and sync flows.
+description: Use when delivering client software changes that require project orientation, scoped implementation, integration contracts, production-safe release, incident diagnosis, UX review, security/data handling, or operator/client handover across web apps, REST/SOAP APIs, SQL/ERP, relational databases, workflow automation, containerized services, CI/CD, and sync flows.
 ---
 
 # Client Delivery
@@ -18,8 +18,8 @@ Use this skill for client delivery work where correctness depends on context, co
 Typical triggers:
 
 - project discovery, first release, audit, stabilization, or cautious refactoring;
-- SQL/ERP, Supabase/PostgreSQL, API, webhook, Power Automate, Praxedo, n8n, or sync-flow work;
-- Docker, VPS, GitHub Actions, GHCR/container registry, release, rollback, or production maintenance;
+- SQL/ERP, relational database, REST/SOAP API, webhook, workflow automation, field-service, or sync-flow work;
+- container, VPS, CI/CD, container registry, release, rollback, or production maintenance;
 - incident diagnosis, CPU/latency/stale data/failed jobs, observability, or support escalation;
 - dashboard, admin, mobile/tablet, field workflow, labels, copy, or client-facing UX review;
 - executive docs, vendor requests, runbooks, delivery reports, incident notes, PDFs, or handover.
@@ -106,8 +106,8 @@ Use a stronger review path when a task touches:
 ## Reference Router
 
 - New project, unclear scope, missing context, or active path confusion: read `references/project-discovery.md`.
-- SQL, ERP, Supabase, Power Automate, Praxedo, n8n, APIs, watermarks, sync flows: read `references/integration-contracts.md`.
-- Docker, VPS, GitHub Actions, GHCR/container registries, secrets, rollback, release: read `references/production-release.md`.
+- SQL, ERP, relational databases, workflow automation, REST/SOAP APIs, watermarks, sync flows: read `references/integration-contracts.md`.
+- Containers, VPS, CI/CD, container registries, secrets, rollback, release: read `references/production-release.md`.
 - Incident, CPU, latency, failed flows, queues, workers, logs, observability: read `references/diagnosis-and-observability.md`.
 - Dashboard, mobile/tablet, field workflow, labels, copy, layout: read `references/ux-mobile-review.md`.
 - Secrets, personal data, logs, screenshots, exports, data classification, safe examples: read `references/security-and-data-handling.md`.
@@ -115,7 +115,7 @@ Use a stronger review path when a task touches:
 - Executive docs, vendor requests, runbooks, PDF/handover: read `references/documentation-and-handover.md`.
 - Reusable output structure: use `templates/delivery-report.md`, `templates/incident-write-up.md`, `templates/integration-request.md`, `templates/release-plan.md`, or `templates/runbook.md`.
 
-Use specialized skills when relevant and available, especially diagnosis, interface design, TDD, GitHub/CI, Power Automate, n8n, and document/PDF skills. Load only what is needed.
+Use specialized skills when relevant and available, especially diagnosis, interface design, TDD, CI, workflow automation, integration, and document/PDF skills. Load only what is needed.
 
 ## Completion Checklist
 

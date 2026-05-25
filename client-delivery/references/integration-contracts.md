@@ -1,6 +1,6 @@
 # Integration Contracts
 
-Use this for SQL, ERP, Supabase/PostgreSQL, Power Automate, Praxedo, n8n, APIs, webhooks, sync jobs, queues, projections, and watermarks.
+Use this for SQL, ERP, relational databases, workflow automation platforms, REST/SOAP APIs, webhooks, sync jobs, queues, projections, and watermarks.
 
 ## Contract Rules
 
@@ -39,7 +39,7 @@ For any integration change, capture:
 - Temporary catch-up jobs must be isolated, documented, observable, and removable.
 - Consider clock skew, timezone conversion, null update timestamps, and deleted records.
 
-## SQL / Power Automate
+## SQL / Automation Platforms
 
 - Use explicit schemas; never assume `dbo`.
 - For SQL Server procedures: `SET NOCOUNT ON`, stable columns, one result set, bounded runtime.
@@ -48,16 +48,16 @@ For any integration change, capture:
 - After SQL object changes, expect metadata/cache refresh steps in the automation platform.
 - Verify automation inputs and outputs with a sample record before broad replay.
 
-## Supabase / PostgreSQL
+## Relational Databases
 
 - Separate source/projection/read-model tables from app workflow tables.
 - Use dedicated least-privilege roles for writers and readers.
 - Be explicit about RLS and service-role usage.
-- After schema changes, consider PostgREST metadata/cache refresh needs.
+- After schema changes, consider API metadata/cache refresh needs.
 - Track data volume and query shape before assuming plan limits are the bottleneck.
 - Validate index usage for polling, dashboard counts, and sync selectors.
 
-## Praxedo / External APIs
+## External APIs
 
 - Identify whether the app uses API/REST/SOAP directly, via automation, or through projected data.
 - Log external error payloads in a business-readable way without secrets.

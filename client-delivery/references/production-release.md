@@ -1,6 +1,6 @@
 # Production Release
 
-Use this for Docker, VPS, GitHub Actions, GHCR/container registries, secrets, deployments, rollbacks, migrations, and production maintenance.
+Use this for containers, VPS, CI/CD workflows, container registries, secrets, deployments, rollbacks, migrations, and production maintenance.
 
 ## Preferred Shape
 
@@ -38,7 +38,7 @@ Use `templates/release-plan.md` for non-trivial releases. At minimum, write:
 - Rollback command/tag:
 - Owner and decision point:
 
-## Docker / VPS Rules
+## Container / VPS Rules
 
 - Avoid `docker compose build` on constrained VPS for production release.
 - Use `docker compose pull` then `docker compose up -d --no-build` when images are prebuilt.
@@ -63,7 +63,7 @@ Use `templates/release-plan.md` for non-trivial releases. At minimum, write:
 - Verify scheduler/worker state if present.
 - Verify `/health` and at least one business page.
 
-## GitHub Actions
+## CI/CD Workflows
 
 - Manual deployment workflow should require a tag/SHA input.
 - Use repository/environment secrets for SSH and registry auth.
